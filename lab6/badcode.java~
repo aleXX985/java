@@ -1,0 +1,6 @@
+public class badcode {
+
+    Die die = new Die();
+    System.out.println(die.get());
+
+}
