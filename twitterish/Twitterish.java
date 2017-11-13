@@ -21,7 +21,7 @@ public class Twitterish {
     private static class Client {
         private Account loggedInUser;
         private Set<Account> knownUsers = new TreeSet<Account>();
-        private Feed feed;
+        private Feed feed = new Feed();
 
         private ObjectOutputStream out;
         private ObjectInputStream in;
@@ -216,11 +216,15 @@ public class Twitterish {
                 // TODO
                 // Use the feed object for this
                 for (Post p : ((SyncResponse) o).getPosts())
-                    System.out.println(p.render());
+                    newPost(p);
 
             } else {
                 System.out.println("Error: expected sync response, got " + o.getClass());
             }
+        }
+
+        private void printFeed() {
+            System.out.println(this.feed.renderAll());
         }
 
         private ObjectOutputStream outgoing;
@@ -266,6 +270,7 @@ public class Twitterish {
             System.out.println("Actions:");
             System.out.print("[P]ost message     |  ");
             System.out.print("[S]ync with server |  ");
+            System.out.print("[F]eed print       |  ");
             System.out.print("[A]dd friend       |  ");
             System.out.print("[R]emove friend    |  ");
             System.out.println();
@@ -289,6 +294,9 @@ public class Twitterish {
                 return true;
             case 's':
                 this.syncWithServer();
+                return true;
+            case 'f':
+                this.printFeed();
                 return true;
             case 'a':
                 this.addFriend();
