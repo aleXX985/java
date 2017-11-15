@@ -205,7 +205,18 @@ public class Twitterish {
             this.sendMessage(new SyncRequest());
             Object o = this.receiveMessage();
             if (o instanceof SyncResponse) {
-                this.knownUsers.addAll(((SyncResponse) o).getUsers());
+                TreeSet<Account> tempAccList = (TreeSet<Account>)knownUsers;
+                for(Account a : ((SyncResponse) o).getUsers()) {
+                    if (tempAccList.contains(a)) {
+                        Account tempUser = tempAccList.floor(a);
+                        if(tempUser != null && tempUser.equals(a)) {
+                            tempUser.setName(a.getName());
+                        }
+                    } else {
+                        this.knownUsers.add(a);
+                    }
+                }
+                // this.knownUsers.addAll(((SyncResponse) o).getUsers());
                 // TODO
                 // Go through all known users on this side of the fence
                 // and update them if their name has changed
@@ -215,8 +226,16 @@ public class Twitterish {
 
                 // TODO
                 // Use the feed object for this
-                for (Post p : ((SyncResponse) o).getPosts())
+                for (Post p : ((SyncResponse) o).getPosts()) {
+                    Account oldPoster = p.getPoster();
+                    if (tempAccList.contains(oldPoster)) {
+                        Account tempUser = tempAccList.floor(oldPoster);
+                        if(tempUser != null && tempUser.equals(oldPoster)) {
+                            p.setPoster(tempUser);
+                        }
+                    }
                     newPost(p);
+                }
 
             } else {
                 System.out.println("Error: expected sync response, got " + o.getClass());

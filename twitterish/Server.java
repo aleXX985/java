@@ -43,6 +43,14 @@ public class Server {
         this.knownUsers.remove(a);
     }
 
+    public synchronized Set<Account> getNoPassword() {
+        Set<Account> accountsNoPasswords = new TreeSet<Account>();
+        for(Account a : knownUsers){
+            accountsNoPasswords.add(a.safeCopy());
+        }
+        return accountsNoPasswords;
+    }
+
     public synchronized Set<Account> getAccounts() {
         return new TreeSet<Account>(this.knownUsers);
     }
@@ -151,7 +159,7 @@ public class Server {
         private void sync() {
             try {
                 System.out.println("<< SyncResponse");
-                this.outgoing.writeObject(new SyncResponse(new HashSet<Account>(this.server.getAccounts()),
+                this.outgoing.writeObject(new SyncResponse(new HashSet<Account>(this.server.getNoPassword()),
                                                            new LinkedList<Post>(this.server.getNewFriendPosts(this.account))));
                 this.outgoing.flush();
             } catch (IOException ioe) {

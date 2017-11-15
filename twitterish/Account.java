@@ -11,6 +11,7 @@ public class Account implements Serializable, Comparable<Account> {
     private Set<Account> friends = new TreeSet<Account>();
     private Set<Account> ignoredFriends = new TreeSet<Account>();
 
+
     public Account(String userId, String password) {
         this.userId   = userId;
         this.password = password;
@@ -19,6 +20,14 @@ public class Account implements Serializable, Comparable<Account> {
     public Account(String userId, String password, String name) {
         this(userId, password);
         this.name = name;
+    }
+
+    public Account safeCopy() {
+        Account safe = new Account(userId, "", name);
+        safe.postsAtLastSync = this.postsAtLastSync;
+        safe.friends = this.friends;
+        safe.ignoredFriends = this.ignoredFriends;
+        return safe;
     }
 
     public String getName() {

@@ -9,6 +9,10 @@ public class Post implements Serializable {
         return this.poster;
     }
 
+    public void setPoster(Account newposter) {
+        this.poster = newposter;
+    }
+
     public Post(int globalPostId, Account poster, String content) {
         this.globalPostId = globalPostId;
         this.poster       = poster;
