@@ -20,8 +20,8 @@ public class Assignment extends Binary {
 	}
 
 	// Syntax for the expression
-	public Assignment(Sexpr first, Sexpr second) {
-		super(first, second);
+	public Assignment(Sexpr left, Sexpr right) {
+		super(left, right);
 	}
 
 	// Evaluation of the expression

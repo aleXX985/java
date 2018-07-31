@@ -7,8 +7,8 @@ import java.util.HashMap;
 public class Addition extends Binary {
 
 	// The syntax for the addition
-	public Addition(Sexpr first, Sexpr second) {
-		super(first, second);
+	public Addition(Sexpr left, Sexpr right) {
+		super(left, right);
 	}
 
 	// Simply returns priority
