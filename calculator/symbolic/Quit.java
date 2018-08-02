@@ -9,7 +9,7 @@ public class Quit extends Command {
 		return this.name;
 	}
 
-	public Boolean toQuit() {
+	public Boolean isQuit() {
 		return true;
 	}
 
